@@ -15,7 +15,7 @@ class Blockchain {
     this.chain.push(newBlock);
   }
 
-  replaceChain(chain) {
+  replaceChain(chain, onSuccess) {
     if (chain.length <= this.chain.length) {
       console.error('The incoming chain must be longer');
 
@@ -28,7 +28,9 @@ class Blockchain {
       return;
     }
 
-    console.log('replacing chain wiih', chain);
+    if (onSuccess) onSuccess();
+
+    console.log('replacing chain with', chain);
     this.chain = chain;
   }
 
@@ -37,8 +39,8 @@ class Blockchain {
 
     for (let i=1; i<chain.length; i++) {
       const { timestamp, lastHash, hash, nonce, difficulty, data } = chain[i];
-      const actualLastHash = chain[i - 1].hash;
-      const lastDifficulty = chain[i - 1].difficulty;
+      const actualLastHash = chain[i-1].hash;
+      const lastDifficulty = chain[i-1].difficulty;
 
       if (lastHash !== actualLastHash) return false;
 
