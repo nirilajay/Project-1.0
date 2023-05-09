@@ -25309,7 +25309,7 @@ var App = /*#__PURE__*/function (_Component) {
     key: "componentDidMount",
     value: function componentDidMount() {
       var _this2 = this;
-      fetch('http://localhost:3000/api/wallet-info').then(function (response) {
+      fetch("".concat(document.location.origin, "/api/wallet-info")).then(function (response) {
         return response.json();
       }).then(function (json) {
         return _this2.setState({
@@ -25328,7 +25328,7 @@ var App = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react.default.createElement("img", {
         className: "logo",
         src: _logo.default
-      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Welcome to the blockchain..."), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
+      }), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, "Welcome to the nrlchain..."), /*#__PURE__*/_react.default.createElement("br", null), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
         to: "/blocks"
       }, "Blocks")), /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement(_reactRouterDom.Link, {
         to: "/conduct-transaction"
@@ -40659,7 +40659,7 @@ var ConductTransaction = /*#__PURE__*/function (_Component) {
       var _this$state = _this.state,
         recipient = _this$state.recipient,
         amount = _this$state.amount;
-      fetch('http://localhost:3000/api/transact', {
+      fetch("".concat(document.location.origin, "/api/transact"), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -40731,6 +40731,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var POLL_INTERVAL_MS = 10000;
 var TransactionPool = /*#__PURE__*/function (_Component) {
   _inherits(TransactionPool, _Component);
   var _super = _createSuper(TransactionPool);
@@ -40745,7 +40746,7 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
       transactionPoolMap: {}
     });
     _defineProperty(_assertThisInitialized(_this), "fetchTransactionPoolMap", function () {
-      fetch('http://localhost:3000/api/transaction-pool-map').then(function (response) {
+      fetch("".concat(document.location.origin, "/api/transaction-pool-map")).then(function (response) {
         return response.json();
       }).then(function (json) {
         return _this.setState({
@@ -40758,7 +40759,16 @@ var TransactionPool = /*#__PURE__*/function (_Component) {
   _createClass(TransactionPool, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      var _this2 = this;
       this.fetchTransactionPoolMap();
+      this.fetchPoolMapInterval = setInterval(function () {
+        return _this2.fetchTransactionPoolMap();
+      }, POLL_INTERVAL_MS);
+    }
+  }, {
+    key: "componentWillUnmount",
+    value: function componentWillUnmount() {
+      clearInterval(this.fetchPoolMapInterval);
     }
   }, {
     key: "render",
@@ -40889,7 +40899,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52001" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59699" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
