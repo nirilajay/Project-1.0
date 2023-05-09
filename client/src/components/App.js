@@ -18,7 +18,7 @@ class App extends Component {
       <div className="App">
         <img className='logo' src={logo}></img>
         <br />
-        <div>Welcome to the blockchain...</div>
+        <div>Welcome to the nrlchain...</div>
         <br />
         <div className='WalletInfo'>
           <div>Address: {address}</div>
